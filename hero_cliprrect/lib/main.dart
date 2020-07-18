@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hero_cliprrect/secondPage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Text(
                   'Press the button',
+                  style: GoogleFonts.pacifico(),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(50.0),

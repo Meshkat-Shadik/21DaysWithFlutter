@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 Color primaryBlack = Color(0xff202c3b);
- 
- class DataSource {
+var alertStyle = AlertStyle(
+    animationType: AnimationType.fromTop,
+    isCloseButton: false,
+    isOverlayTapDismiss: false,
+    animationDuration: Duration(milliseconds: 400),
+    alertBorder: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+      side: BorderSide(
+        color: Colors.grey,
+      ),
+    ),
+    titleStyle: TextStyle(color: Colors.red, fontSize: 20),
+    constraints: BoxConstraints.expand(width: 1000));
+
+class DataSource {
   static String quote =
       "Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less.";
 
@@ -19,7 +33,7 @@ Color primaryBlack = Color(0xff202c3b);
     },
     {
       "question": "What are the symptoms of COVID-19?",
-      "answer": 
+      "answer":
           "The most common symptoms of COVID-19 are fever, tiredness, and dry cough. Some patients may have aches and pains, nasal congestion, runny nose, sore throat or diarrhea. These symptoms are usually mild and begin gradually. Some people become infected but don’t develop any symptoms and don't feel unwell. Most people (about 80%) recover from the disease without needing special treatment. Around 1 out of every 6 people who gets COVID-19 becomes seriously ill and develops difficulty breathing. Older people, and those with underlying medical problems like high blood pressure, heart problems or diabetes, are more likely to develop serious illness. People with fever, cough and difficulty breathing should seek medical attention."
     },
     {

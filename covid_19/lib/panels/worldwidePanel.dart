@@ -1,3 +1,5 @@
+import 'package:covid_19/Data/source.dart';
+import 'package:covid_19/Pages/CountryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,9 +17,36 @@ class WorldWidePanel extends StatelessWidget {
       child: Column(
         children: <Widget>[
           SizedBox(height: 5),
-          Text(
-            'Worldwide',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Worldwide',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 5),
+                padding: EdgeInsets.all(5),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CountryPage()));
+                  },
+                  child: Text(
+                    'Regional',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: primaryBlack,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ],
           ),
           Container(
             height: 20,

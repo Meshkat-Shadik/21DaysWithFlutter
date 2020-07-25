@@ -32,6 +32,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  rflutter_alert: ^1.0.3 
   
   url_launcher:
   shared_preferences:

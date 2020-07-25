@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:covid_19/Data/source.dart';
+import 'package:covid_19/panels/infoPanel.dart';
+import 'package:covid_19/panels/mostAffectedPanel.dart';
 import 'package:covid_19/panels/worldwidePanel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,8 +29,18 @@ class _HomeState extends State<Home> {
     });
   }
 
+  List countryData;
+  fetchCountryData() async {
+    http.Response response =
+        await http.get('https://corona.lmao.ninja/v2/countries');
+    setState(() {
+      countryData = json.decode(response.body);
+    });
+  }
+
   Future fetchData() async {
     fetchWorldWideData();
+    fetchCountryData();
   }
 
   @override
@@ -43,15 +55,20 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('COVID-19 Tracker'),
       ),
-      body: SingleChildScrollView(
-        child: RefreshIndicator(
-          onRefresh: fetchData,
+      body: RefreshIndicator(
+        onRefresh: fetchData,
+        child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               TopContainer(),
               worldData != null
                   ? WorldWidePanel(worldData)
                   : CircularProgressIndicator(),
+              countryData == null
+                  ? Container()
+                  : MostAffectedPanel(countryData),
+              InfoPanel(),
+              SizedBox(height: 30)
             ],
           ),
         ),

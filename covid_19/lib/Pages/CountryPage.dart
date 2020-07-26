@@ -30,7 +30,12 @@ class _CountryPageState extends State<CountryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Country Statistics')),
+      appBar: AppBar(
+        title: Text('Country Statistics'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search), onPressed: () {})
+        ],
+      ),
       body: countryData == null
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -42,99 +47,27 @@ class _CountryPageState extends State<CountryPage> {
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey[800]
+                          : Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey[300],
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey[900]
+                              : Colors.grey[300],
                           blurRadius: 10,
                           offset: Offset(0, 10),
                         )
                       ],
                     ),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  countryData[index]['country'],
-                                  style: TextStyle(fontSize: 25),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Container(
-                                  // margin: EdgeInsets.only(left: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(60),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey[200],
-                                        offset: Offset(3, 2),
-                                      ),
-                                      BoxShadow(
-                                        color: Colors.white,
-                                        blurRadius: 20,
-                                        spreadRadius: -20,
-                                        offset: Offset(0, 10),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: CircleAvatar(
-                                      radius: 48.0,
-                                      backgroundImage: NetworkImage(
-                                          countryData[index]['countryInfo']
-                                              ['flag']),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                            child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'CONFIRMED:' +
-                                    countryData[index]['cases'].toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red),
-                              ),
-                              Text(
-                                'ACTIVE:' +
-                                    countryData[index]['active'].toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
-                              ),
-                              Text(
-                                'RECOVERED:' +
-                                    countryData[index]['recovered'].toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green),
-                              ),
-                              Text(
-                                'DEATHS:' +
-                                    countryData[index]['deaths'].toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? Colors.grey[100]
-                                        : Colors.grey[900]),
-                              ),
-                            ],
-                          ),
-                        ))
-                      ],
+                    child: ListRow(
+                      country: countryData[index]['country'].toString(),
+                      flagUrl:
+                          countryData[index]['countryInfo']['flag'].toString(),
+                      confirmed: countryData[index]['cases'].toString(),
+                      active: countryData[index]['active'].toString(),
+                      recovered: countryData[index]['recovered'].toString(),
+                      deaths: countryData[index]['deaths'].toString(),
                     ),
                   ),
                   onTap: () {
@@ -150,32 +83,46 @@ class _CountryPageState extends State<CountryPage> {
                             Text('TODAY\'s Statistics',
                                 style: TextStyle(fontSize: 16)),
                             Divider(thickness: 1, color: Colors.grey[500]),
-                            MyRow('Today Cases',
-                                countryData[index]['todayCases'].toString(),Colors.blue),
-                            MyRow('Today Deaths',
-                                countryData[index]['todayDeaths'].toString(),Colors.red),
+                            MyRow(
+                                'Today Cases',
+                                countryData[index]['todayCases'].toString(),
+                                Colors.blue),
+                            MyRow(
+                                'Today Deaths',
+                                countryData[index]['todayDeaths'].toString(),
+                                Colors.red),
                             MyRow(
                                 'Today Recovered',
-                                countryData[index]['todayRecovered']
-                                    .toString(),Colors.green),
+                                countryData[index]['todayRecovered'].toString(),
+                                Colors.green),
                             SizedBox(height: 5),
                             Text('TOTAL Statistics',
                                 style: TextStyle(fontSize: 16)),
                             Divider(thickness: 1, color: Colors.grey[500]),
-                            MyRow('Total Cases',
-                                countryData[index]['cases'].toString(),Colors.blue),
-                            MyRow('Total Deaths',
-                                countryData[index]['deaths'].toString(),Colors.red),
-                            MyRow('Total Recovered',
-                                countryData[index]['recovered'].toString(),Colors.green),
+                            MyRow(
+                                'Total Cases',
+                                countryData[index]['cases'].toString(),
+                                Colors.blue),
+                            MyRow(
+                                'Total Deaths',
+                                countryData[index]['deaths'].toString(),
+                                Colors.red),
+                            MyRow(
+                                'Total Recovered',
+                                countryData[index]['recovered'].toString(),
+                                Colors.green),
                             SizedBox(height: 5),
                             Text('Country INFO',
                                 style: TextStyle(fontSize: 16)),
                             Divider(thickness: 1, color: Colors.grey[500]),
-                            MyRow('Total Population',
-                                countryData[index]['population'].toString(),Colors.black),
-                            MyRow('Continent',
-                                countryData[index]['continent'].toString(),Colors.black),
+                            MyRow(
+                                'Total Population',
+                                countryData[index]['population'].toString(),
+                                null),
+                            MyRow(
+                                'Continent',
+                                countryData[index]['continent'].toString(),
+                                null),
                           ],
                         ),
                       ),
@@ -205,6 +152,96 @@ class _CountryPageState extends State<CountryPage> {
   }
 }
 
+class ListRow extends StatelessWidget {
+  final String country, flagUrl, confirmed, active, recovered, deaths;
+  const ListRow(
+      {this.country,
+      this.flagUrl,
+      this.confirmed,
+      this.active,
+      this.recovered,
+      this.deaths});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 20),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  country,
+                  style: TextStyle(fontSize: 25),
+                  textAlign: TextAlign.left,
+                ),
+                Container(
+                  // margin: EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(60),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey[200],
+                        offset: Offset(3, 2),
+                      ),
+                      BoxShadow(
+                        color: Colors.white,
+                        blurRadius: 20,
+                        spreadRadius: -20,
+                        offset: Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: CircleAvatar(
+                      radius: 48.0,
+                      backgroundImage: NetworkImage(flagUrl),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+            child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'CONFIRMED:' + confirmed,
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+              ),
+              Text(
+                'ACTIVE:' + active,
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              Text(
+                'RECOVERED:' + recovered,
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+              ),
+              Text(
+                'DEATHS:' + deaths,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey[100]
+                        : Colors.grey[900]),
+              ),
+            ],
+          ),
+        ))
+      ],
+    );
+  }
+}
+
 class MyRow extends StatelessWidget {
   final String title, value;
   final Color colour;
@@ -213,7 +250,13 @@ class MyRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[Text(title + ' : '), Text(value,style: TextStyle(color: colour),)],
+      children: <Widget>[
+        Text(title + ' : '),
+        Text(
+          value,
+          style: TextStyle(color: colour),
+        )
+      ],
     );
   }
 }

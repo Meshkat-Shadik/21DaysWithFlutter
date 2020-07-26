@@ -56,7 +56,10 @@ class WorldWidePanel extends StatelessWidget {
             ),
             child: Text(
               'Updated at $formattedDate',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
           ),
           SizedBox(height: 5),
@@ -112,25 +115,42 @@ class StatusPanel extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 2,
       decoration: BoxDecoration(
         color: panelColor,
+  
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(title,
               style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 16, color: textColor)),
+                  fontWeight: FontWeight.bold, fontSize: 25, color: textColor)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Total : '),
-              Text(countTotal),
+              Text('Total : ',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black)),
+              Text(countTotal,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: textColor)),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(countToday == '' ? '' : 'Today : '),
-              Text(countToday),
+              Text(countToday == '' ? '' : 'Today : ',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black)),
+              Text(countToday,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: textColor)),
             ],
           ),
         ],

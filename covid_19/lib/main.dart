@@ -6,13 +6,37 @@ import 'package:covid_19/panels/mostAffectedPanel.dart';
 import 'package:covid_19/panels/worldwidePanel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(fontFamily: 'Circular', primaryColor: primaryBlack),
-    home: Home(),
-  ));
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DynamicTheme(
+      data: (brightness) {
+        return ThemeData(
+          fontFamily: 'Circular',
+          primaryColor: primaryBlack,
+          brightness: brightness == Brightness.dark
+              ? Brightness.dark
+              : Brightness.light,
+          scaffoldBackgroundColor: brightness == Brightness.dark
+              ? Colors.blueGrey[900]
+              : Colors.white,
+        );
+      },
+      themedWidgetBuilder: (context, data) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: data,
+          home: Home(),
+        );
+      },
+    );
+  }
 }
 
 class Home extends StatefulWidget {
@@ -54,6 +78,18 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('COVID-19 Tracker'),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Theme.of(context).brightness == Brightness.light
+                  ? Icons.lightbulb_outline
+                  : Icons.highlight),
+              onPressed: () {
+                DynamicTheme.of(context).setBrightness(
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Brightness.light
+                        : Brightness.dark);
+              })
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: fetchData,

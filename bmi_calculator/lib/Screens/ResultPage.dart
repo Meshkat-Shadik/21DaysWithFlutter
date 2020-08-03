@@ -4,6 +4,12 @@ import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatelessWidget {
+  final String textResult;
+  final String numberResult;
+  final String information;
+
+  ResultPage({this.textResult, this.numberResult, this.information});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,18 +39,19 @@ class ResultPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(height: 10),
-                      Text('Overweight', style: k_resultTextStyle),
-                      Text('26.7', style: k_resultNumberStyle),
-                      Text('Lorem ipsumihasdsjadasldsf',
-                          style: k_resultInfoStyle),
+                      Text(textResult, style: k_resultTextStyle),
+                      Text(numberResult, style: k_resultNumberStyle),
+                      Text(information, style: k_resultInfoStyle),
                       SizedBox(height: 10),
                     ],
                   ),
                 ),
               )),
           BottomButton(
-            route: '/',
             title: 'RE-CALCULATE',
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ],
       ),

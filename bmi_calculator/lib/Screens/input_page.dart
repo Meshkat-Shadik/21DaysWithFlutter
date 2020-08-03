@@ -3,6 +3,7 @@ import 'package:bmi_calculator/components/RoundButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../Calculation.dart';
 import '../components/Box.dart';
 import '../components/BoxContent.dart';
 import '../constants.dart';
@@ -72,7 +73,10 @@ class _InputPageState extends State<InputPage> {
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
                         Text(height.toString(), style: k_numberTextStyle),
-                        Text('cm', style: k_labelTextStyle)
+                        Text('cm', style: k_labelTextStyle),
+                        Text('/',style: TextStyle(fontSize: 50)),
+                        Text((height/30.8).toStringAsFixed(2), style: k_numberTextStyle),
+                        Text('ft', style: k_labelTextStyle)
                       ],
                     ),
                     SliderTheme(
@@ -109,7 +113,15 @@ class _InputPageState extends State<InputPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text('WEIGHT', style: k_labelTextStyle),
-                      Text(weight.toString(), style: k_numberTextStyle),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: <Widget>[
+                          Text(weight.toString(), style: k_numberTextStyle),
+                          Text('Kg', style: k_labelTextStyle)
+                        ],
+                      ),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +154,7 @@ class _InputPageState extends State<InputPage> {
                   cardChild: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('WEIGHT', style: k_labelTextStyle),
+                      Text('AGE', style: k_labelTextStyle),
                       Text(age.toString(), style: k_numberTextStyle),
                       SizedBox(height: 20),
                       Row(
@@ -173,8 +185,16 @@ class _InputPageState extends State<InputPage> {
               ],
             )),
             BottomButton(
-              route: '/result',
               title: 'CALCULATE',
+              onPressed: () {
+                Calculation obj = Calculation(height: height, weight: weight);
+                List<String> data = [
+                  obj.calculateBMI(),
+                  obj.getResult(),
+                  obj.getInformation()
+                ];
+                Navigator.pushNamed(context, '/result', arguments: data);
+              },
             )
           ],
         ));

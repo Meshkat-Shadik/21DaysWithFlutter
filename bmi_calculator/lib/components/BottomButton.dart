@@ -1,18 +1,18 @@
+import 'package:bmi_calculator/Calculation.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
 class BottomButton extends StatelessWidget {
-  BottomButton({this.route, this.title});
-  final String route;
+  BottomButton({this.title, this.onPressed});
+  final Function onPressed;
   final String title;
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, route);
-      },
+      onTap: onPressed,
       child: Container(
           padding: EdgeInsets.only(bottom: 15),
           child: Center(child: Text(title, style: k_calculateButtonStyle)),

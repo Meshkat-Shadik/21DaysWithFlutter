@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/Routes/RouteGenerator.dart';
 import 'package:bmi_calculator/Screens/ResultPage.dart';
 import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,11 @@ class BmiCalculator extends StatelessWidget {
           textTheme: TextTheme(body1: TextStyle(color: Colors.white))),
       //    home: InputPage(),
       initialRoute: '/',
-      routes: {
-        '/': (context) => InputPage(),
-        '/result': (context) => ResultPage(),
-      },
+      onGenerateRoute: RouteGenerator.generateRoute,
+      // routes: {
+      //   '/': (context) => InputPage(),
+      //   '/result': (context) => ResultPage(),
+      // },
     );
   }
 }

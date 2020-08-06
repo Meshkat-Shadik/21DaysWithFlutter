@@ -23,11 +23,21 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void weatherDataGrab(dynamic weatherData) {
-    temperature = weatherData['main']['temp'];
-    weatherCondition =
-        weatherModel.getWeatherIcon(weatherData['weather'][0]['id']).toString();
-    cityName = weatherData['name'];
-    message = weatherModel.getMessage(weatherData['main']['temp']).toString();
+    // print('Updated');
+    if (weatherData != null) {
+      temperature = weatherData['main']['temp'];
+      weatherCondition = weatherModel
+          .getWeatherIcon(weatherData['weather'][0]['id'])
+          .toString();
+      cityName = weatherData['name'];
+      message = weatherModel.getMessage(weatherData['main']['temp']).toString();
+    } else {
+      temperature = 0;
+      weatherCondition = 'Error';
+      cityName = ' ';
+      message = 'Unable to get weather Data!';
+      return;
+    }
   }
 
   @override
@@ -52,14 +62,20 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      dynamic data =
+                          await WeatherDataReturn().getLocationWeather();
+                      weatherDataGrab(data);
+                    },
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/searchScreen');
+                    },
                     child: Icon(
                       Icons.location_city,
                       size: 50.0,
@@ -87,7 +103,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "${message} in ",
+                      "${message}",
                       textAlign: TextAlign.right,
                       style: kMessageTextStyle,
                     ),
@@ -95,7 +111,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          "$cityName",
+                          "$cityName !",
                           style: kMessageTextStyle
                               .merge(TextStyle(color: Colors.orangeAccent)),
                         ),

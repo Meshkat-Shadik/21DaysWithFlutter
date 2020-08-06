@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/screens/loading_screen.dart';
 import 'package:weather_app/screens/location_screen.dart';
 
@@ -9,7 +10,10 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (_) => LoadingScreen());
       case '/locationScreen':
-        return MaterialPageRoute(builder: (_) => LocationScreen(weatherData:args));
+        return MaterialPageRoute(
+            builder: (_) => LocationScreen(weatherData: args));
+      case '/searchScreen':
+        return MaterialPageRoute(builder: (_) => CityScreen());
       default:
         return _errorRoute();
     }

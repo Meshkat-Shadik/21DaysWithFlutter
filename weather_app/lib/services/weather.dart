@@ -25,7 +25,7 @@ class WeatherModel {
     }
   }
 
-  String getMessage(double temp) {
+  String getMessage(var temp) {
     if (temp >= 30) {
       return 'It\'s 🍦 time in';
     } else if (temp > 20 && temp < 30) {
@@ -45,6 +45,15 @@ class WeatherDataReturn {
     NetworkHelper networkHelper = NetworkHelper(
         url:
             'http://api.openweathermap.org/data/2.5/weather?lat=${location.lattitude}&lon=${location.longitude}&appid=${appId}&units=metric');
+
+    dynamic decodeData = await networkHelper.getData();
+    return decodeData;
+  }
+
+    Future<dynamic> getCityWeather(String x) async {
+    NetworkHelper networkHelper = NetworkHelper(
+        url:
+            'http://api.openweathermap.org/data/2.5/weather?q=$x&appid=${appId}&units=metric');
 
     dynamic decodeData = await networkHelper.getData();
     return decodeData;

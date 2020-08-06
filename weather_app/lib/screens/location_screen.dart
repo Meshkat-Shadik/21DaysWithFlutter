@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utilities/constants.dart';
 
+import '../services/weather.dart';
+
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.weatherData});
   final dynamic weatherData;
@@ -12,7 +14,7 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
   WeatherModel weatherModel = WeatherModel();
 
-  double temperature;
+  var temperature;
   String weatherCondition;
   String cityName;
   String message;
@@ -24,8 +26,9 @@ class _LocationScreenState extends State<LocationScreen> {
 
   void weatherDataGrab(dynamic weatherData) {
     // print('Updated');
-    if (weatherData != null) {
-      temperature = weatherData['main']['temp'];
+    setState(() {
+       if (weatherData != null) {
+      temperature = (weatherData['main']['temp']);
       weatherCondition = weatherModel
           .getWeatherIcon(weatherData['weather'][0]['id'])
           .toString();
@@ -38,7 +41,28 @@ class _LocationScreenState extends State<LocationScreen> {
       message = 'Unable to get weather Data!';
       return;
     }
+    });
+   
   }
+//main.temp   weather[0].id   name
+
+  // void cityDataGrab(dynamic data2) {
+  //   setState(() {
+  //      if (data2 != null) {
+  //     print(data2);
+  //     //  print((double.parse(data['main']['temp'])).toString());
+  //     temperature = (data2['main']['temp']);
+  //     print(data2['main']['temp']);
+  //     //   temperature = double.parse(data['main']['temp']);
+  //     //temperature = (doudata['main']['temp']);
+  //     // message = weatherModel.getMessage(data['main']['temp']);
+  //     // weatherCondition = weatherModel.getWeatherIcon(data['weather'][0]['id']).toString();
+  //     // cityName = data['name'];
+  //     //    message = weatherModel.getMessage(data['main']['temp']).toString();
+  //   }
+  //   });
+   
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +97,19 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/searchScreen');
+                    onPressed: () async {
+                      var typedData =
+                          await Navigator.pushNamed(context, '/searchScreen');
+                      if (typedData != null) {
+                        dynamic wData =
+                            await WeatherDataReturn().getCityWeather(typedData);
+                        // weatherDataGrab(wData);
+
+                        weatherDataGrab(wData);
+                        // print(wData['main']['temp']);
+                        //  print(weatherModel.getWeatherIcon(wData['weather'][0]['id']).toString());
+                        // print(weatherModel.getMessage(wData['main']['temp']));
+                      }
                     },
                     child: Icon(
                       Icons.location_city,
@@ -88,7 +123,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '${temperature.toStringAsFixed(1)}°',
+                      '${temperature}°',
                       style: kTempTextStyle,
                     ),
                     Text(

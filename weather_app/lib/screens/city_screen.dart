@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/utilities/constants.dart';
 
 class CityScreen extends StatefulWidget {
+  static const String pathId = '/cityScreen';
   @override
   _CityScreenState createState() => _CityScreenState();
 }
@@ -43,7 +44,7 @@ class _CityScreenState extends State<CityScreen> {
               ),
               FlatButton(
                 onPressed: () {
-                  Navigator.pop(context,data);
+                  Navigator.pop(context, data);
                 },
                 child: Text(
                   'Get Weather',

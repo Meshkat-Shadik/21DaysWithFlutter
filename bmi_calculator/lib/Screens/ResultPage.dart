@@ -4,6 +4,8 @@ import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatelessWidget {
+  static const String id = '/result';
+
   final String textResult;
   final String numberResult;
   final String information;

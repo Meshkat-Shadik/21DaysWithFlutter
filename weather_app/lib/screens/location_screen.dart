@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utilities/constants.dart';
 
 import '../services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
+  static const String pathId = '/locationScreen';
+
   LocationScreen({this.weatherData});
   final dynamic weatherData;
   @override
@@ -27,22 +30,22 @@ class _LocationScreenState extends State<LocationScreen> {
   void weatherDataGrab(dynamic weatherData) {
     // print('Updated');
     setState(() {
-       if (weatherData != null) {
-      temperature = (weatherData['main']['temp']);
-      weatherCondition = weatherModel
-          .getWeatherIcon(weatherData['weather'][0]['id'])
-          .toString();
-      cityName = weatherData['name'];
-      message = weatherModel.getMessage(weatherData['main']['temp']).toString();
-    } else {
-      temperature = 0;
-      weatherCondition = 'Error';
-      cityName = ' ';
-      message = 'Unable to get weather Data!';
-      return;
-    }
+      if (weatherData != null) {
+        temperature = (weatherData['main']['temp']);
+        weatherCondition = weatherModel
+            .getWeatherIcon(weatherData['weather'][0]['id'])
+            .toString();
+        cityName = weatherData['name'];
+        message =
+            weatherModel.getMessage(weatherData['main']['temp']).toString();
+      } else {
+        temperature = 0;
+        weatherCondition = 'Error';
+        cityName = ' ';
+        message = 'Unable to get weather Data!';
+        return;
+      }
     });
-   
   }
 //main.temp   weather[0].id   name
 
@@ -61,7 +64,7 @@ class _LocationScreenState extends State<LocationScreen> {
   //     //    message = weatherModel.getMessage(data['main']['temp']).toString();
   //   }
   //   });
-   
+
   // }
 
   @override
@@ -99,7 +102,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   FlatButton(
                     onPressed: () async {
                       var typedData =
-                          await Navigator.pushNamed(context, '/searchScreen');
+                          await Navigator.pushNamed(context, CityScreen.pathId);
                       if (typedData != null) {
                         dynamic wData =
                             await WeatherDataReturn().getCityWeather(typedData);

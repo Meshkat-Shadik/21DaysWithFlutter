@@ -6,9 +6,9 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final List args = settings.arguments;
     switch (settings.name) {
-      case '/':
+      case InputPage.id:
         return MaterialPageRoute(builder: (_) => InputPage());
-      case '/result':
+      case ResultPage.id:
         return MaterialPageRoute(
             builder: (_) => ResultPage(
                   numberResult: args[0],

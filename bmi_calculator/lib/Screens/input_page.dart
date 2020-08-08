@@ -1,8 +1,8 @@
+
 import 'package:bmi_calculator/components/BottomButton.dart';
 import 'package:bmi_calculator/components/RoundButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../Calculation.dart';
 import '../components/Box.dart';
 import '../components/BoxContent.dart';
@@ -11,6 +11,9 @@ import '../constants.dart';
 enum Gender { male, female }
 
 class InputPage extends StatefulWidget {
+  static const String id = '/';
+
+
   @override
   _InputPageState createState() => _InputPageState();
 }

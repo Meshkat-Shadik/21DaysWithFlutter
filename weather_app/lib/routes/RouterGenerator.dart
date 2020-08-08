@@ -7,12 +7,12 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final dynamic args = settings.arguments;
     switch (settings.name) {
-      case '/':
+      case LoadingScreen.pathId:
         return MaterialPageRoute(builder: (_) => LoadingScreen());
-      case '/locationScreen':
+      case LocationScreen.pathId:
         return MaterialPageRoute(
             builder: (_) => LocationScreen(weatherData: args));
-      case '/searchScreen':
+      case CityScreen.pathId:
         return MaterialPageRoute(builder: (_) => CityScreen());
       default:
         return _errorRoute();

@@ -12,12 +12,13 @@ class BmiCalculator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primaryColor: myPrimaryColor,
           scaffoldBackgroundColor: myScaffoldBgColor,
           textTheme: TextTheme(body1: TextStyle(color: Colors.white))),
       //    home: InputPage(),
-      initialRoute: '/',
+      initialRoute: InputPage.id,
       onGenerateRoute: RouteGenerator.generateRoute,
       // routes: {
       //   '/': (context) => InputPage(),

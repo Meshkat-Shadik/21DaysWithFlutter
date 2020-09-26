@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/RoundedCustomButton.dart';
 import 'package:flash_chat/components/RoundedCustomTextField.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -9,6 +11,9 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  String email;
+  String password;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +37,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedCustomTextField(
               borderColor: Colors.blueAccent,
               hint: 'Enter your email address here',
-              pressChange: (value) {},
+              pressChange: (value) {
+                email = value;
+              },
+              keyBoardType: TextInputType.emailAddress,
             ),
             SizedBox(
               height: 8.0,
@@ -40,7 +48,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedCustomTextField(
               hint: 'Enter your password here',
               borderColor: Colors.blueAccent,
-              pressChange: (value) {},
+              pressChange: (value) {
+                password = value;
+              },
+              hidden: true,
             ),
             SizedBox(
               height: 24.0,
@@ -48,7 +59,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedCustomButton(
               title: 'Register',
               myColor: Colors.blueAccent,
-              press: () {},
+              press: () async{
+                try{
+               final newUser = await _auth.createUserWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+                if(newUser != null)
+                {
+                  Navigator.pushNamed(context, ChatScreen.pathId);
+                }
+                }
+                catch(ex)
+                {
+                  print(ex);
+                }
+              },
             )
           ],
         ),

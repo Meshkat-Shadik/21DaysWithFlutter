@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/RoundedCustomButton.dart';
 import 'package:flash_chat/components/RoundedCustomTextField.dart';
 import 'package:flutter/material.dart';
+
+import 'chat_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String pathId = '/loginScreen';
@@ -9,6 +12,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String email;
+  String password;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
             RoundedCustomTextField(
               borderColor: Colors.lightBlueAccent,
               hint: 'Enter your email address here',
-              pressChange: (value) {},
+              pressChange: (value) {
+                email = value;
+              },
+              keyBoardType: TextInputType.emailAddress,
             ),
             SizedBox(
               height: 8.0,
@@ -40,14 +49,29 @@ class _LoginScreenState extends State<LoginScreen> {
             RoundedCustomTextField(
               borderColor: Colors.lightBlueAccent,
               hint: 'Enter your password here',
-              pressChange: (value) {},
+              pressChange: (value) {
+                password = value;
+              },
+              hidden: true,
             ),
             SizedBox(
               height: 24.0,
             ),
             RoundedCustomButton(
               myColor: Colors.lightBlueAccent,
-              press: () {},
+              press: () async {
+                try {
+                  final newUser = await _auth.signInWithEmailAndPassword(
+                    email: email,
+                    password: password,
+                  );
+                  if (newUser != null) {
+                    Navigator.pushNamed(context, ChatScreen.pathId);
+                  }
+                } catch (ex) {
+                  print(ex);
+                }
+              },
               title: 'Log In',
             )
           ],
